@@ -39,9 +39,10 @@ Get-ADGroupMember $UserGroup | ForEach-Object `
         Write-Host $UserShare$($_.samaccountname) already exists!
     } else {
         $newusers += New-Item "$UserShare$($_.samaccountname)" -itemtype Directory 
-            New-Item "$UserShare$($_.samaccountname)\Folder1" -itemtype Directory | `
-            New-Item "$UserShare$($_.samaccountname)\Folder1\Week Ending $NextSunday" -ItemType Directory `
-            | Format-List name,CreationTime | Export-Csv $csvfile 
+            New-Item "$UserShare$($_.samaccountname)\Folder1" -itemtype Directory | 
+            New-Item "$UserShare$($_.samaccountname)\Folder1\Week Ending $NextSunday" -ItemType Directory | 
+            Format-List name,CreationTime | 
+            Export-Csv $csvfile 
         Add-NTFSAccess -Path "$UserShare$($_.samaccountname)" -Account "Contoso\$($_.samaccountname)" -AccessRights Write -AppliesTo SubfoldersAndFilesOnly
     }
 }
@@ -54,8 +55,8 @@ Get-ADGroupMember $UserGroup | ForEach-Object `
     if (Test-Path -Path $archive$($_.samaccountname) -PathType Container) {
         Write-Host $archive$($_.samaccountname) already exists!
     } else {
-        $archiveusers += New-Item "$archive$($_.samaccountname)" -itemtype directory | `
-        New-item "$archive$($_.samaccountname)\Folder1" -itemtype Directory | `
+        $archiveusers += New-Item "$archive$($_.samaccountname)" -itemtype directory | 
+        New-item "$archive$($_.samaccountname)\Folder1" -itemtype Directory | 
         Select-Object name, creationtime -First 1
     }
 }
